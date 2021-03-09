@@ -21,7 +21,6 @@ function App() {
   };
 
   const handleRemoveSelections = () => {
-    console.log('CLICK');
     setSelections([]);
   }
 
@@ -36,7 +35,9 @@ function App() {
   return (
     <>
       <Container>
-        <Button onClick={handleRemoveSelections}>{ `Remove ${selections.length} selected products` }</Button>
+        <Button onClick={handleRemoveSelections} disabled={!selections.length}>
+          { `Remove ${selections.length ? `${selections.length} ` : ''}selected product${selections.length !== 1 ? 's' : ''}` }
+        </Button>
         <Grid container spacing={2}>
           {products && products.map((product) => (
             <ProductCard 
@@ -61,7 +62,10 @@ const Button = styled.button`
   &:hover {
     background: #460876
   }
-  font-family: Arial;
+  font-family: Arial, helvetica, sans-serif;
+  font-size: 16px;
+  ${({ disabled }) => disabled && 'opacity: 0.5'};
+  ${({ disabled }) => disabled && 'pointer-events: none'};  
 `;
 
 export default App;
