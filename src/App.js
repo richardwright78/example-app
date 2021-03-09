@@ -2,50 +2,53 @@ import * as React from 'react';
 import styled from 'styled-components';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import PaperBase from '@material-ui/core/Paper';
 import axios from 'axios';
+import { ProductCard } from './components/product-card';
 
 function App() {
   const [products, setProducts] = React.useState();
+  const [selections, setSelections] = React.useState([]);
+
+  const handleSelect = (productId) => () => {
+    if(selections.includes(productId)) {
+      const newSelections = [...selections];
+      newSelections.splice(newSelections.indexOf(productId), 1);
+
+      setSelections(newSelections);
+    } else {
+      setSelections([...selections, productId]);
+    }
+  };
+
+  const handleRemoveSelections = () => {
+    console.log('CLICK');
+    setSelections([]);
+  }
 
   React.useEffect(() => {
-    async function getProducts() {
-      try {
-        const response = await axios.get('https://run.mocky.io/v3/fca7ef93-8d86-4574-9a4a-3900d91a283e');
-        console.log(response);
+    axios.get('https://run.mocky.io/v3/fca7ef93-8d86-4574-9a4a-3900d91a283e')
+      .then((response) => {
         setProducts(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getProducts();
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   return (
     <>
       <Container>
-        <Button>Remove 3 selected products</Button>
+        <Button onClick={handleRemoveSelections}>{ `Remove ${selections.length} selected products` }</Button>
         <Grid container spacing={2}>
-          {products?.map((product) => (
-             <Grid item xs={6} md={4} lg={3}>
-             <Paper>
-               <img src={product.imageUrl} width="100%" alt={product.name} />
-             </Paper>
-            </Grid>
+          {products && products.map((product) => (
+            <ProductCard 
+              product={product} 
+              handleSelect={handleSelect} 
+              selected={selections.includes(product.productId)} />
           ))}
         </Grid>
       </Container>
     </>
   );
 }
-
-export default App;
-
-const Paper = styled(PaperBase)`
-  width: 100%;
-  height: 100%;
-`;
 
 const Button = styled.button`
   cursor: pointer;
@@ -58,7 +61,10 @@ const Button = styled.button`
   &:hover {
     background: #460876
   }
+  font-family: Arial;
 `;
+
+export default App;
 
 
 
