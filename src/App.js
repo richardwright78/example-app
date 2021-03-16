@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
@@ -34,6 +34,7 @@ function App() {
 
   return (
     <>
+      <GlobalStyle />
       <Container>
         <Button onClick={handleRemoveSelections} disabled={!selections.length}>
           { `Remove ${selections.length ? `${selections.length} ` : ''}selected product${selections.length !== 1 ? 's' : ''}` }
@@ -51,7 +52,15 @@ function App() {
   );
 }
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    font-family: Arial, Helvetia, sans-serif;
+  }
+` 
+
 const Button = styled.button`
+  width: 240px;
   cursor: pointer;
   background: #900FF4;
   color: white;
@@ -64,8 +73,13 @@ const Button = styled.button`
   }
   font-family: Arial, helvetica, sans-serif;
   font-size: 16px;
-  ${({ disabled }) => disabled && 'opacity: 0.5'};
-  ${({ disabled }) => disabled && 'pointer-events: none'};  
+  ${({ disabled }) => disabled && `
+    background: #bbb;
+    cursor: not-allowed;
+    &:hover {
+      background: #bbb;
+    }    
+  `} 
 `;
 
 export default App;
