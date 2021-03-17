@@ -8,7 +8,8 @@
 
 ## Running the tests
 
-Run `npm run test`
+1. Run `npm run test`
+2. If prompted, pess 'a' to run all tests
 ## The task
 
 Create a React application that loads products from an API and allows the user to manage the inventory by deleting unwanted products from the list. 
