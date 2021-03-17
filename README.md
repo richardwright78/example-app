@@ -5,6 +5,10 @@
 1. Run `npm i`
 2. Run `npm start`
 3. The app will be available at http://localhost:3000
+
+## Running the tests
+
+Run `npm run test`
 ## The task
 
 Create a React application that loads products from an API and allows the user to manage the inventory by deleting unwanted products from the list. 
