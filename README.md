@@ -1,4 +1,4 @@
-# poq-inventory
+# Example Shopping App
 
 ## Starting the app
 
